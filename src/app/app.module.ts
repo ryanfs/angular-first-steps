@@ -16,6 +16,7 @@ import {
   MatIconModule,
   MatExpansionModule,
   MatChipsModule,
+  MatFormFieldModule,
 } from '@angular/material';
 
 @NgModule({
@@ -35,9 +36,23 @@ import {
     MatIconModule,
     MatExpansionModule,
     MatChipsModule,
+    MatFormFieldModule,
       RouterModule.forRoot([
         { path: '', component: JobListComponent },
       ])
+  ],
+  exports: [
+    BrowserModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
+    FormsModule,
+    MatInputModule,
+    MatButtonModule,
+    MatProgressSpinnerModule,
+    MatIconModule,
+    MatExpansionModule,
+    MatChipsModule,
+    MatFormFieldModule
   ],
   providers: [],
   bootstrap: [AppComponent]
