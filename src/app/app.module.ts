@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
-
+import { HttpClientModule } from '@angular/common/http';
 import { HeaderComponent } from './header/header.component';
 import { JobListComponent } from './job-list/job-list.component';
 
@@ -13,8 +13,9 @@ import {
   MatProgressSpinnerModule,
   MatInputModule,
   MatButtonModule,
-  MatSelectModule,
-  MatIconModule
+  MatIconModule,
+  MatExpansionModule,
+  MatChipsModule,
 } from '@angular/material';
 
 @NgModule({
@@ -25,13 +26,15 @@ import {
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     BrowserAnimationsModule,
     FormsModule,
     MatInputModule,
     MatButtonModule,
-    MatSelectModule,
     MatProgressSpinnerModule,
     MatIconModule,
+    MatExpansionModule,
+    MatChipsModule,
       RouterModule.forRoot([
         { path: '', component: JobListComponent },
       ])

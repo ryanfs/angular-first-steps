@@ -1,20 +1,38 @@
-<h2>Jerbs</h2>
+<h2>Jobs page {{page}}</h2>
 
-<mat-spinner color="Accent" *ngIf="jobs.length === 0"></mat-spinner>
+<h3 *ngIf="errorMessage.length > 0">{{errorMessage}}</h3>
 
-<div *ngFor="let job of jobs">
-  <h3>
-    <a [title]="job.title + ' details'">
-      {{ job.title }}
-    </a>
-  </h3>
-
-  <p *ngIf="job.description">
-    Description: {{ job.description }}
-  </p>
-
-  <button (click)="share()">
-    Share
+<form (ngSubmit)="search()" class="search-form">
+  <mat-form-field>
+    <mat-label>Find Jobs</mat-label>
+    <input matInput [(ngModel)]="searchTerm" name="searchTerm"  placeholder="Javascript...">
+  </mat-form-field>
+  <button type="submit" class="search-button">
+    Search
   </button>
+</form>
 
+<mat-spinner color="Accent" *ngIf="jobs.length === 0 && errorMessage.length === 0"></mat-spinner>
+<div *ngFor="let job of jobs" class="job-listing">
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <h3><span class="job-title">{{ job.title }}</span> @ {{job.company}}</h3><mat-chip-list class="location-tag"><mat-chip color="primary">{{job.location}}</mat-chip></mat-chip-list>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <a [title]="job.title + ' details'" [href]="job.url" target="_blank">
+      <h3 class="link">See full listing on GitHub</h3>
+    </a>
+
+    <p *ngIf="job.description" [innerHTML]="job.description"></p>
+  </mat-expansion-panel>
 </div>
+
+<h4 *ngIf="jobs.length > 0">Showing {{resultsPerPage * page}} out of {{allJobs.length}}</h4>
+
+<button (click)="navigate('prev')" [disabled]="page === 1" class="nav-buttons">
+  Prev page
+</button>
+<button (click)="navigate('next')">
+  Next page
+</button>

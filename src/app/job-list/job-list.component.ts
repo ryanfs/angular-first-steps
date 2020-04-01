@@ -1,27 +1,46 @@
 import { Component, OnInit } from '@angular/core';
-// import { JobsService } from '../jobs.service';
+import { JobsService } from '../jobs.service';
 
 @Component({
   selector: 'app-job-list',
-  templateUrl: './job-list.component.html',
-  // styleUrls: ['./job-list.component.css']
+  templateUrl: './job-list.component.html'
 })
 export class JobListComponent {
-  jobs = []
+  allJobs = []
+  jobs = [];
+  page = 1;
+  resultsPerPage = 5;
+  errorMessage = '';
+  searchTerm = '';
 
-  // constructor(private jobsService: JobsService) { }
+  constructor(private jobsService: JobsService) { }
 
   ngOnInit() {
-    // console.log(15, this.JobsService)
-
-    // this.jobsService.getGithubJobs().subscribe((data: any[])=>{
-    //   console.log(17, data);
-    //   this.jobs = data;
-    // })
+    this.getJobResults()
   }
 
-  share() {
-    window.alert('The job has been shared!');
+  search() {
+    this.getJobResults()
   }
 
+  getJobResults() {
+    this.jobs = [];
+    this.jobsService.getJobs(this.page, this.searchTerm)
+      .subscribe((data: any[]) => {
+        this.allJobs = data;
+        this.jobs = this.allJobs.slice(0, this.resultsPerPage)
+    }, (error) => {
+      this.errorMessage = 'GitHub Jobs API is currently unavailable, please try again.'
+    })
+  }
+
+  navigate(direction) {
+    if (direction === 'next' && this.page) {
+      this.page++
+    }
+    if (direction === 'prev') {
+      this.page--
+    }
+    this.jobs = this.allJobs.slice(this.resultsPerPage * (this.page - 1), this.resultsPerPage * this.page)
+  }
 }
